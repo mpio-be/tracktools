@@ -5,7 +5,7 @@
 \alias{tracktools}
 \title{tracktools}
 \description{
-Toools for working with ARGOS and GPS data on scidb. Functions assume one tagID is used at a time.
+Toools for working with ARGOS and GPS data on scidb.
 }
 \author{
 Mihai Valcu \email{mvalcu@gwdg.de}
