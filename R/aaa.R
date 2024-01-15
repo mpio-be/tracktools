@@ -15,4 +15,3 @@
 #' @importFrom  geodist geodist
 #'
 NULL
-# TODO xxx
