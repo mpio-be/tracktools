@@ -20,7 +20,7 @@ argos_prepare <- function(dat, sf = FALSE) {
   x[, dpl := NULL]
   
   if (sf) {
-    x = st_as_sf(x, coords = c("lon", "lat"), crs = 4326)
+    x = st_as_sf(x, coords = c("longitude", "latitude"), crs = 4326)
   }
 
   x
