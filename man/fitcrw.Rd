@@ -8,7 +8,7 @@ fitcrw(x, frm = makefrm(x), ...)
 }
 \arguments{
 \item{x}{a DT as obtained with argos_prepare
-A wrapper around aniMotum::fit_ssm}
+A thin wrapper around aniMotum::fit_ssm}
 }
 \description{
 fitcrw

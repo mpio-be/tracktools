@@ -20,9 +20,13 @@ makefrm <- function(d, bytime = "15 mins", byid = "id") {
 
 #' fitcrw
 #' @param x a DT as obtained with argos_prepare
-#' A wrapper around aniMotum::fit_ssm
+#' A thin wrapper around aniMotum::fit_ssm
 #' @export
 fitcrw <- function(x, frm = makefrm(x), ...) {
+
+    if(inherits(x, "sf"))
+      x = cbind(st_geometry(x), st_drop_geometry(x) ) |> setDT()
+
 
     setnames(
       x,
@@ -38,8 +42,7 @@ fitcrw <- function(x, frm = makefrm(x), ...) {
       fit.to.subset = FALSE,
       ...
     )
-    grab(fm, what = "predicted", as_sf = TRUE) |>
-      st_transform(4326)
+    grab(fm, what = "predicted", as_sf = TRUE) 
 
 
 }
