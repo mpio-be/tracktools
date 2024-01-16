@@ -24,10 +24,7 @@ makefrm <- function(d, bytime = "15 mins", byid = "id") {
 #' @export
 fitcrw <- function(x, frm = makefrm(x), ...) {
 
-    if(inherits(x, "sf"))
-      x = cbind(st_geometry(x), st_drop_geometry(x) ) |> setDT()
-
-
+ 
     setnames(
       x,
       c("tagID", "locationDate", "locationClass", "longitude", "latitude"),
