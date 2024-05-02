@@ -5,12 +5,14 @@
 \title{argos_prepare
 prepare Argos data}
 \usage{
-argos_prepare(dat, sf = FALSE)
+argos_prepare(dat, sf = FALSE, remove_missing_xy = TRUE)
 }
 \arguments{
 \item{dat}{data as returned from an ARGOS table}
 
-\item{sf}{when TRUE returns a sf.}
+\item{sf}{when TRUE returns a sf. Default to FALSE.}
+
+\item{remove_missing_xy}{when TRUE (default) removes the missing lat, lon.}
 }
 \description{
 argos_prepare

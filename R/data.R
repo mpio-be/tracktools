@@ -1,16 +1,22 @@
 #' argos_prepare
 #' prepare Argos data
 #' @param dat data as returned from an ARGOS table
-#' @param sf when TRUE returns a sf. 
-#' @export 
-#' @examples 
+#' @param sf when TRUE returns a sf. Default to FALSE.
+#' @param remove_missing_xy when TRUE (default) removes the missing lat, lon.
+#' @export
+#' @examples
 #' d = dbq(q = "Select * from ARGOS.2018_PESA where tagID ='52753' ")
 #' z = argos_prepare(d)
-argos_prepare <- function(dat, sf = FALSE) {
+argos_prepare <- function(dat, sf = FALSE, remove_missing_xy = TRUE) {
   x = copy(dat)
   x[, locationClass := factor(locationClass, levels = c("Z", "B", "A", 0:3), ordered = TRUE)]
   x[, tagID := as.character(tagID)]
   setorder(x, tagID, locationDate, locationClass)
+
+  # remove missing coordinates
+  if(remove_missing_xy)
+    x = x[!is.na(latitude)][!is.na(longitude)]
+
 
   x[, dpl := duplicated(x, by = c("tagID", "locationDate", "locationClass"))]
   x <- x[!(dpl)]
@@ -18,7 +24,7 @@ argos_prepare <- function(dat, sf = FALSE) {
   x[, dpl := duplicated(x, by = c("tagID", "locationDate"), fromLast = TRUE)]
   x <- x[!(dpl)]
   x[, dpl := NULL]
-  
+
   if (sf) {
     x = st_as_sf(x, coords = c("longitude", "latitude"), crs = 4326)
   }
@@ -40,7 +46,7 @@ st_points2lines <- function(x, grp) {
   } else {
     o = dplyr::summarise(x, do_union = FALSE) |> st_cast("LINESTRING")
   }
-  
+
   o
 }
 
