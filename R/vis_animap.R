@@ -1,3 +1,5 @@
+### UNDER CONSTRUCTION +++
+
 
 #' @export
 alphaAlong <- function(x, head = 20, skew = -2) {
@@ -49,7 +51,7 @@ prepare_segments.temporal <- function(x = triplegs, crsPreds) {
 #' p2 <- p4 <- filter(world, str_detect(continent, "America"))
 #' p3 <- filter(world, continent == 'South America')
 # TODO
-prepare_segments.spatal <- function(x, polys) {
+prepare_segments.spatial <- function(x, polys) {
 
 }
 
