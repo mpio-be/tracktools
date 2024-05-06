@@ -1,13 +1,8 @@
 
-#' tracktools
-#'
-#' Toools for working with ARGOS and GPS data on scidb. 
-#'
-#'
-#' @name tracktools
-#' @docType package
-#'
-#' @author Mihai Valcu \email{mvalcu@gwdg.de}
+#' @keywords internal
+"_PACKAGE"
+## usethis namespace: start
+
 #'
 #' @import  aniMotum  data.table  dbo  ggspatial  glue  leaflet sf  shiny  dbscanTrack
 #' @import  ggplot2 tidyr  stringr forcats

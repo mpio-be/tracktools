@@ -52,6 +52,7 @@ st_points2lines <- function(x, grp) {
 
 
 #' speed along points
+#' compute speed along locations by reference 
 #' @param .lat lat (default to ARGOS tables nomenclature)
 #' @param .lon lon (default to ARGOS tables nomenclature)
 #' @param .dt locationDate (default to ARGOS tables nomenclature)

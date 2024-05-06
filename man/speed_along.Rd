@@ -2,7 +2,8 @@
 % Please edit documentation in R/data.R
 \name{speed_along}
 \alias{speed_along}
-\title{speed along points}
+\title{speed along points
+compute speed along locations by reference}
 \usage{
 speed_along(
   x,
@@ -34,6 +35,7 @@ Compute speed on a DT that has lat, lon and datetime
 }
 \description{
 speed along points
+compute speed along locations by reference
 }
 \examples{
 #' d = dbq(q = "Select * from ARGOS.2018_PESA where tagID ='52753' ")
