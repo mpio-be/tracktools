@@ -5,14 +5,16 @@
 \title{flagpts
 Flag outliers interactively}
 \usage{
-flagpts(dat, R = 10, max_speed = 1000, shift_lon = TRUE)
+flagpts(d, R = 10, max_speed = 500, use_speed = FALSE, shift_lon = TRUE)
 }
 \arguments{
-\item{dat}{a DT returned by argos_prepare()}
+\item{d}{a DT returned by argos_prepare()}
 
 \item{R}{point radius passed to leafltet::addCircleMarkers.}
 
 \item{max_speed}{the initial maximum speed (km/h) used as a selection criterion.}
+
+\item{use_speed}{should speed be used to flag points?}
 
 \item{shift_lon}{translate longitude so that it works with leaflet}
 }

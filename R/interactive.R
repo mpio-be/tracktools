@@ -1,17 +1,17 @@
 #' flagpts
 #' Flag outliers interactively
-#' @param dat a DT returned by argos_prepare()
+#' @param d a DT returned by argos_prepare()
 #' @param R point radius passed to leafltet::addCircleMarkers. 
 #' @param max_speed the initial maximum speed (km/h) used as a selection criterion.
+#' @param use_speed should speed be used to flag points?
 #' @param shift_lon translate longitude so that it works with leaflet
 #' @export
 #' @examples
 #' x <- dbq(q = "Select * from ARGOS.2018_PESA where tagID ='52753' ") |> argos_prepare()
 #' flagpts(x)
 
-flagpts <- function(dat, R = 10, max_speed = 1000, shift_lon = TRUE) {
+flagpts <- function(d, R = 10, max_speed = 500, use_speed = FALSE, shift_lon = TRUE) {
   
-  d = copy(dat)
   speed_along(d)
 
   d[, longitude2 := longitude]
@@ -37,7 +37,7 @@ flagpts <- function(dat, R = 10, max_speed = 1000, shift_lon = TRUE) {
         inputId = "maxspeed", 
         label = "Max speed (kmh)", 
         min   = 50, 
-        max   = 1000, 
+        max   = 500, 
         value = max_speed)
     )
   )
@@ -45,7 +45,7 @@ flagpts <- function(dat, R = 10, max_speed = 1000, shift_lon = TRUE) {
 
   server <- function(input, output) {
 
-    onStop(function() assign("flagged_points", d[(flag), pk], envir = .GlobalEnv))
+    # onStop(function() assign("flagged_points", d[(flag), pk], envir = .GlobalEnv))
 
     output$map <- renderLeaflet({
       leaflet() |>
@@ -71,7 +71,7 @@ flagpts <- function(dat, R = 10, max_speed = 1000, shift_lon = TRUE) {
 
 
     observe({
-      if (is.null(input$map_marker_click)) {
+      if (is.null(input$map_marker_click) && use_speed) {
         d[speed_kmh >= as.numeric(input$maxspeed), ":="(flag = 1, col = "#6d5e59")]
         d[speed_kmh <  as.numeric(input$maxspeed), ":="(flag = 0, col = "#c4390f")]
       }
