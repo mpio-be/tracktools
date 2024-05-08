@@ -5,12 +5,16 @@
 \title{flagpts
 Flag outliers interactively}
 \usage{
-flagpts(d, R = 10)
+flagpts(dat, R = 10, max_speed = 500, fix_lon = TRUE)
 }
 \arguments{
-\item{d}{a DT returned by argos_prepare()}
+\item{dat}{a DT returned by argos_prepare()}
 
-\item{R}{point radius}
+\item{R}{point radius passed to leafltet::addCircleMarkers.}
+
+\item{max_speed}{the initial maximum speed (km/h) used as a selection criterion.}
+
+\item{fix_lon}{translate longitude so that it works with leaflet}
 }
 \description{
 flagpts
