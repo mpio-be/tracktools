@@ -9,7 +9,7 @@
 #' x <- dbq(q = "Select * from ARGOS.2018_PESA where tagID ='52753' ") |> argos_prepare()
 #' flagpts(x)
 
-flagpts <- function(dat, R = 10, max_speed = 500, shift_lon = TRUE) {
+flagpts <- function(dat, R = 10, max_speed = 1000, shift_lon = TRUE) {
   
   d = copy(dat)
   speed_along(d)
@@ -37,7 +37,7 @@ flagpts <- function(dat, R = 10, max_speed = 500, shift_lon = TRUE) {
         inputId = "maxspeed", 
         label = "Max speed (kmh)", 
         min   = 50, 
-        max   = 500, 
+        max   = 1000, 
         value = max_speed)
     )
   )

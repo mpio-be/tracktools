@@ -5,7 +5,7 @@
 \title{flagpts
 Flag outliers interactively}
 \usage{
-flagpts(dat, R = 10, max_speed = 500, shift_lon = TRUE)
+flagpts(dat, R = 10, max_speed = 1000, shift_lon = TRUE)
 }
 \arguments{
 \item{dat}{a DT returned by argos_prepare()}
