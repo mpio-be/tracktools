@@ -5,7 +5,7 @@
 \title{flagpts
 Flag outliers interactively}
 \usage{
-flagpts(dat, R = 10, max_speed = 500, fix_lon = TRUE)
+flagpts(dat, R = 10, max_speed = 500, shift_lon = TRUE)
 }
 \arguments{
 \item{dat}{a DT returned by argos_prepare()}
@@ -14,7 +14,7 @@ flagpts(dat, R = 10, max_speed = 500, fix_lon = TRUE)
 
 \item{max_speed}{the initial maximum speed (km/h) used as a selection criterion.}
 
-\item{fix_lon}{translate longitude so that it works with leaflet}
+\item{shift_lon}{translate longitude so that it works with leaflet}
 }
 \description{
 flagpts

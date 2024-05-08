@@ -3,19 +3,21 @@
 #' @param dat a DT returned by argos_prepare()
 #' @param R point radius passed to leafltet::addCircleMarkers. 
 #' @param max_speed the initial maximum speed (km/h) used as a selection criterion.
-#' @param fix_lon translate longitude so that it works with leaflet
+#' @param shift_lon translate longitude so that it works with leaflet
 #' @export
 #' @examples
 #' x <- dbq(q = "Select * from ARGOS.2018_PESA where tagID ='52753' ") |> argos_prepare()
 #' flagpts(x)
 
-flagpts <- function(dat, R = 10, max_speed = 500, fix_lon = TRUE) {
+flagpts <- function(dat, R = 10, max_speed = 500, shift_lon = TRUE) {
   
   d = copy(dat)
   speed_along(d)
 
-  if(fix_lon)
-    d[, longitude := (longitude + 360) %% 360]
+  d[, longitude2 := longitude]
+
+  if(shift_lon)
+    d[, longitude2 := (longitude + 360) %% 360]
   
   if (!"flag" %in% names(d)) d[, flag := NA]
   d[is.na(flag), flag := 0]
@@ -23,7 +25,8 @@ flagpts <- function(dat, R = 10, max_speed = 500, fix_lon = TRUE) {
   d[, col := fcase(flag == 0, "#c4390f", flag == 1, "#6d5e59")]
 
   dlines <- st_as_sf(d[flag == 0], coords = c("longitude", "latitude"), crs = 4326) |>
-    st_points2lines()
+    st_points2lines(shift_lon = shift_lon) 
+    
 
   ui <- fluidPage(
     leafletOutput("map", height = "100vh"),
@@ -47,10 +50,10 @@ flagpts <- function(dat, R = 10, max_speed = 500, fix_lon = TRUE) {
     output$map <- renderLeaflet({
       leaflet() |>
         addProviderTiles("Esri.WorldGrayCanvas") |>
-        addGeodesicPolylines(data = dlines) |>
+        addPolylines(data = dlines) |>
         addCircleMarkers(
           data        = d,
-          lng         = ~longitude,
+          lng         = ~longitude2,
           lat         = ~latitude,
           fillColor   = ~col,
           color       = NA,
@@ -70,7 +73,7 @@ flagpts <- function(dat, R = 10, max_speed = 500, fix_lon = TRUE) {
     observe({
       if (is.null(input$map_marker_click)) {
         d[speed_kmh >= as.numeric(input$maxspeed), ":="(flag = 1, col = "#6d5e59")]
-        d[speed_kmh < as.numeric(input$maxspeed), ":="(flag = 0, col = "#c4390f")]
+        d[speed_kmh <  as.numeric(input$maxspeed), ":="(flag = 0, col = "#c4390f")]
       }
 
       if (!is.null(input$map_marker_click)) {
@@ -79,18 +82,18 @@ flagpts <- function(dat, R = 10, max_speed = 500, fix_lon = TRUE) {
 
 
       xlines <- st_as_sf(d[flag == 0], coords = c("longitude", "latitude"), crs = 4326) |>
-        st_points2lines()
+        st_points2lines(shift_lon = shift_lon)
 
 
       leafletProxy("map") |>
-        clearMarkers() |>
-        clearShapes() |>
-        addGeodesicPolylines(
+        clearMarkers()    |>
+        clearShapes()     |>
+        addPolylines(
           data   = xlines, 
           weight = 2.5) |>
         addCircleMarkers(
           data        = d,
-          lng         = ~longitude,
+          lng         = ~longitude2,
           lat         = ~latitude,
           fillColor   = ~col,
           color       = NA,

@@ -35,8 +35,15 @@ argos_prepare <- function(dat, sf = FALSE, remove_missing_xy = TRUE) {
 
 #' sf points to lines
 #' Convert a sf point object to line.
+#' @param x sf object
+#' @param grp when given cast line by group
+#' @param shift_lon translate longitude so that it works with leaflet
 #' @export
-st_points2lines <- function(x, grp) {
+st_points2lines <- function(x, grp, shift_lon = FALSE) {
+  
+  if(shift_lon) {
+    x = st_shift_longitude(x)
+  }
 
   if (!missing(grp)) {
     o = x |>
@@ -46,6 +53,7 @@ st_points2lines <- function(x, grp) {
   } else {
     o = dplyr::summarise(x, do_union = FALSE) |> st_cast("LINESTRING")
   }
+
 
   o
 }

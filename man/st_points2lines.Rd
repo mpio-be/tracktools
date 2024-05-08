@@ -5,7 +5,14 @@
 \title{sf points to lines
 Convert a sf point object to line.}
 \usage{
-st_points2lines(x, grp)
+st_points2lines(x, grp, shift_lon = FALSE)
+}
+\arguments{
+\item{x}{sf object}
+
+\item{grp}{when given cast line by group}
+
+\item{shift_lon}{translate longitude so that it works with leaflet}
 }
 \description{
 sf points to lines
